@@ -1,1 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vikash | Video Editor Portfolio</title>
+    <style>
+        :root {
+            --bg-color: #050505;
+            --surface-color: #121212;
+            --text-primary: #ffffff;
+            --text-secondary: #9e9e9e;
+            --accent-color: #e50914; /* Cinematic Red */
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+            text-align: left; /* Left alignment enforced globally */
+        }
+
+        /* Navigation */
+        nav {
+            padding: 2rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .logo span {
+            color: var(--accent-color);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 8vh 5% 10vh;
+            max-width: 900px;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 6vw, 5rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin: 0 0 1.5rem 0;
+            letter-spacing: -1px;
+        }
+
+        .hero p {
+            font-size: clamp(1.1rem, 2vw, 1.3rem);
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin: 0;
+            max-width: 700px;
+        }
+
+        /* Main Content Container */
+        main {
+            padding: 0 5% 5rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* Video Grid Layout */
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 3rem 2rem;
+            margin-bottom: 5rem;
+        }
+
+        /* Featured item takes up more space */
+        .featured-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        /* Video Card Styling */
+        .video-card {
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            text-align: left;
+        }
+
+        .thumbnail {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: var(--surface-color);
+        }
+
+        .thumbnail img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .play-btn {
+            width: 64px;
+            height: 64px;
+            background: rgba(229, 9, 20, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform: scale(0.8) translateY(10px);
+            transition: var(--transition);
+            backdrop-filter: blur(4px);
+        }
+
+        .play-btn svg {
+            width: 28px;
+            height: 28px;
+            fill: white;
+            margin-left: 4px;
+        }
+
+        /* Hover Interactions */
+        .video-card:hover .thumbnail img {
+            transform: scale(1.03);
+        }
+
+        .video-card:hover .overlay {
+            opacity: 1;
+        }
+
+        .video-card:hover .play-btn {
+            transform: scale(1) translateY(0);
+        }
+
+        .video-card:hover .video-title {
+            color: var(--accent-color);
+        }
+
+        /* Text Under Thumbnail */
+        .video-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+
+        .video-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin: 0;
+            color: var(--text-primary);
+            transition: color 0.2s ease;
+        }
+
+        .featured-grid .video-title {
+            font-size: 1.5rem; /* Larger title for featured */
+        }
+
+        .video-tags {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        /* Fullscreen Interactive Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(15px);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-container {
+            position: relative;
+            width: 95%;
+            max-width: 1200px;
+            aspect-ratio: 16 / 9;
+            background: #000;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+        }
+
+        .modal-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: -45px;
+            right: 0;
+            color: var(--text-secondary);
+            font-size: 2.5rem;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            transition: color 0.2s ease;
+            padding: 0;
+            line-height: 1;
+        }
+
+        .close-modal:hover {
+            color: #ffffff;
+        }
+
+        .modal-wrapper {
+            position: relative;
+            width: 95%;
+            max-width: 1200px;
+        }
+
+        footer {
+            padding: 4rem 5%;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero { padding: 4vh 5% 6vh; }
+            .section-header { font-size: 1.5rem; }
+            .video-grid { gap: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">Vikash<span>.</span></div>
+    </nav>
+
+    <header class="hero">
+        <h1>Bringing stories to life through editing.</h1>
+        <p>I am an intermediate video editor driven by a passion for continuous learning. I build captivating visual experiences using Adobe Premiere Pro, After Effects, and Photoshop.</p>
+    </header>
+
+    <main>
+        <h2 class="section-header">Featured Work</h2>
+        <div class="featured-grid">
+            <!-- FEATURED VIDEO -->
+            <div class="video-card" onclick="playVideo('Col2xBdp7Sc')">
+                <div class="thumbnail">
+                    <img src="https://img.youtube.com/vi/Col2xBdp7Sc/maxresdefault.jpg" alt="Featured Edit" loading="lazy">
+                    <div class="overlay">
+                        <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+                    </div>
+                </div>
+                <div class="video-info">
+                    <h3 class="video-title">Top Viewed Cinematic Edit</h3>
+                    <p class="video-tags">Premiere Pro • After Effects</p>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="section-header">Recent Projects</h2>
+        <div class="video-grid">
+            
+            <div class="video-card" onclick="playVideo('rITF9dT18ko')">
+                <div class="thumbnail">
+                    <img src="https://img.youtube.com/vi/rITF9dT18ko/maxresdefault.jpg" alt="Thumbnail" loading="lazy">
+                    <div class="overlay"><div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
+                </div>
+                <div class="video-info">
+                    <h3 class="video-title">Documentary Style Cut</h3>
+                    <p class="video-tags">Narrative Editing</p>
+                </div>
+            </div>
+
+            <div class="video-card" onclick="playVideo('duPKKIDO5-Q')">
+                <div class="thumbnail">
+                    <img src="https://img.youtube.com/vi/duPKKIDO5-Q/maxresdefault.jpg" alt="Thumbnail" loading="lazy">
+                    <div class="overlay"><div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
+                </div>
+                <div class="video-info">
+                    <h3 class="video-title">Visual Storytelling</h3>
+                    <p class="video-tags">Color Grading • Pacing</p>
+                </div>
+            </div>
+
+            <div class="video-card" onclick="playVideo('78pFzvdjY6s')">
+                <div class="thumbnail">
+                    <img src="https://img.youtube.com/vi/78pFzvdjY6s/maxresdefault.jpg" alt="Thumbnail" loading="lazy">
+                    <div class="overlay"><div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
+                </div>
+                <div class="video-info">
+                    <h3 class="video-title">Dynamic Flow</h3>
+                    <p class="video-tags">Premiere Pro</p>
+                </div>
+            </div>
+
+            <div class="video-card" onclick="playVideo('SDT7lp08Jlo')">
+                <div class="thumbnail">
+                    <img src="https://img.youtube.com/vi/SDT7lp08Jlo/maxresdefault.jpg" alt="Thumbnail" loading="lazy">
+                    <div class="overlay"><div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
+                </div>
+                <div class="video-info">
+                    <h3 class="video-title">Motion Graphics Integration</h3>
+                    <p class="video-tags">After Effects</p>
+                </div>
+            </div>
+
+            <div class="video-card" onclick="playVideo('TNTOvYF7ubQ')">
+                <div class="thumbnail">
+                    <img src="https://img.youtube.com/vi/TNTOvYF7ubQ/maxresdefault.jpg" alt="Thumbnail" loading="lazy">
+                    <div class="overlay"><div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
+                </div>
+                <div class="video-info">
+                    <h3 class="video-title">Creative Compositing</h3>
+                    <p class="video-tags">VFX • Post Production</p>
+                </div>
+            </div>
+
+            <div class="video-card" onclick="playVideo('BNOCA0Luxq8')">
+                <div class="thumbnail">
+                    <img src="https://img.youtube.com/vi/BNOCA0Luxq8/maxresdefault.jpg" alt="Thumbnail" loading="lazy">
+                    <div class="overlay"><div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
+                </div>
+                <div class="video-info">
+                    <h3 class="video-title">Sound Design Focus</h3>
+                    <p class="video-tags">Audio Mixing</p>
+                </div>
+            </div>
+
+            <div class="video-card" onclick="playVideo('gFhkBrYkj9c')">
+                <div class="thumbnail">
+                    <img src="https://img.youtube.com/vi/gFhkBrYkj9c/maxresdefault.jpg" alt="Thumbnail" loading="lazy">
+                    <div class="overlay"><div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
+                </div>
+                <div class="video-info">
+                    <h3 class="video-title">Seamless Transitions</h3>
+                    <p class="video-tags">Premiere Pro</p>
+                </div>
+            </div>
+
+            <div class="video-card" onclick="playVideo('xYWczjZYo84')">
+                <div class="thumbnail">
+                    <img src="https://img.youtube.com/vi/xYWczjZYo84/maxresdefault.jpg" alt="Thumbnail" loading="lazy">
+                    <div class="overlay"><div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
+                </div>
+                <div class="video-info">
+                    <h3 class="video-title">Short Form Edit</h3>
+                    <p class="video-tags">Social Media Content</p>
+                </div>
+            </div>
+
+            <div class="video-card" onclick="playVideo('ZLwV5OwHBzU')">
+                <div class="thumbnail">
+                    <img src="https://img.youtube.com/vi/ZLwV5OwHBzU/maxresdefault.jpg" alt="Thumbnail" loading="lazy">
+                    <div class="overlay"><div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
+                </div>
+                <div class="video-info">
+                    <h3 class="video-title">Engaging Hook Sequence</h3>
+                    <p class="video-tags">Audience Retention</p>
+                </div>
+            </div>
+
+            <div class="video-card" onclick="playVideo('Th7yE96cKh0')">
+                <div class="thumbnail">
+                    <img src="https://img.youtube.com/vi/Th7yE96cKh0/maxresdefault.jpg" alt="Thumbnail" loading="lazy">
+                    <div class="overlay"><div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
+                </div>
+                <div class="video-info">
+                    <h3 class="video-title">Atmospheric Cut</h3>
+                    <p class="video-tags">Color • Lighting</p>
+                </div>
+            </div>
+
+            <div class="video-card" onclick="playVideo('wa7-wzA3f2k')">
+                <div class="thumbnail">
+                    <img src="https://img.youtube.com/vi/wa7-wzA3f2k/maxresdefault.jpg" alt="Thumbnail" loading="lazy">
+                    <div class="overlay"><div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
+                </div>
+                <div class="video-info">
+                    <h3 class="video-title">Fast-Paced Highlights</h3>
+                    <p class="video-tags">Rhythmic Editing</p>
+                </div>
+            </div>
+
+            <div class="video-card" onclick="playVideo('q1cc0MI24r8')">
+                <div class="thumbnail">
+                    <img src="https://img.youtube.com/vi/q1cc0MI24r8/maxresdefault.jpg" alt="Thumbnail" loading="lazy">
+                    <div class="overlay"><div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
+                </div>
+                <div class="video-info">
+                    <h3 class="video-title">Experimental Flow</h3>
+                    <p class="video-tags">Creative Direction</p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        <p>Portfolio of Vikash • Continuously creating and evolving.</p>
+    </footer>
+
+    <!-- Video Modal System -->
+    <div class="modal" id="videoModal">
+        <div class="modal-wrapper">
+            <button class="close-modal" onclick="closeVideo()">&times;</button>
+            <div class="modal-container">
+                <iframe id="modalIframe" src="" allow="autoplay; encrypted-media" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const modal = document.getElementById('videoModal');
+        const iframe = document.getElementById('modalIframe');
+
+        function playVideo(videoId) {
+            iframe.src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1`;
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden'; 
+        }
+
+        function closeVideo() {
+            modal.classList.remove('active');
+            setTimeout(() => {
+                iframe.src = ""; 
+            }, 300);
+            document.body.style.overflow = 'auto'; 
+        }
+
+        // Close on background click
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal || e.target.classList.contains('modal-wrapper')) {
+                closeVideo();
+            }
+        });
+
+        // Close on Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === "Escape" && modal.classList.contains('active')) {
+                closeVideo();
+            }
+        });
+    </script>
+</body>
+</html>
 
