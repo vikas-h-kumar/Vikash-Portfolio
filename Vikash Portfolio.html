@@ -1,0 +1,275 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore with Vikash | Video Editor Portfolio</title>
+    <style>
+        :root {
+            --primary-bg: #121212;
+            --secondary-bg: #1e1e1e;
+            --accent-color: #ff3b3b;
+            --text-light: #ffffff;
+            --text-muted: #a0a0a0;
+        }
+
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--primary-bg);
+            color: var(--text-light);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+
+        header {
+            text-align: center;
+            padding: 4rem 2rem;
+            background-color: var(--secondary-bg);
+            border-bottom: 3px solid var(--accent-color);
+        }
+
+
+        header h1 {
+            font-size: 3rem;
+            margin: 0 0 10px 0;
+            letter-spacing: 2px;
+        }
+
+
+        header p.subtitle {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+
+        .highlight-text {
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+
+
+        section {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+
+        /* Highlighted Video Section - Adjusted for smaller size */
+        .featured-video-container {
+            background-color: var(--secondary-bg);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            max-width: 800px; 
+            margin: 0 auto 4rem auto; 
+        }
+
+
+        .featured-video-container h3 {
+            margin-top: 0;
+            color: var(--accent-color);
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+
+
+        /* Grid for other videos */
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+
+        .video-card {
+            background-color: var(--secondary-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+
+        .video-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(255, 59, 59, 0.2);
+        }
+
+
+        /* Responsive Iframe Wrapper */
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+        }
+
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background-color: var(--secondary-bg);
+            color: var(--text-muted);
+            margin-top: 2rem;
+        }
+
+
+        @media (max-width: 768px) {
+            header h1 { font-size: 2.2rem; }
+            section { padding: 2rem 1rem; }
+            .featured-video-container { padding: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+
+    <header>
+        <h1>Explore with Vikash</h1>
+        <p class="highlight-text">Video Editor & Content Creator</p>
+        <p class="subtitle">
+            I am an intermediate video editor driven by a passion for continuous learning and storytelling. 
+            Most of my projects are brought to life using Adobe Premiere Pro, supplemented by motion graphics in After Effects 
+            and visual design in Photoshop. My goal is always to create a captivating and engaging visual experience. 
+            Welcome to my portfolio.
+        </p>
+    </header>
+
+
+    <section id="portfolio">
+        <!-- Highlighted Most Viewed Video -->
+        <div class="featured-video-container">
+            <h3>★ Most Viewed & Featured Work ★</h3>
+            <div class="video-wrapper">
+                <iframe src="https://www.youtube-nocookie.com/embed/Col2xBdp7Sc" title="Featured Video Editor Work" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+            </div>
+        </div>
+
+
+        <h2>My Editing Projects</h2>
+        
+        <!-- Video Grid for the remaining 12 videos -->
+        <div class="video-grid">
+            
+            <div class="video-card">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube-nocookie.com/embed/rITF9dT18ko" title="Video Project 2" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                </div>
+            </div>
+
+
+            <div class="video-card">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube-nocookie.com/embed/duPKKIDO5-Q" title="Video Project 3" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                </div>
+            </div>
+
+
+            <div class="video-card">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube-nocookie.com/embed/78pFzvdjY6s" title="Video Project 4" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                </div>
+            </div>
+
+
+            <div class="video-card">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube-nocookie.com/embed/SDT7lp08Jlo" title="Video Project 5" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                </div>
+            </div>
+
+
+            <div class="video-card">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube-nocookie.com/embed/TNTOvYF7ubQ" title="Video Project 6" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                </div>
+            </div>
+
+
+            <div class="video-card">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube-nocookie.com/embed/BNOCA0Luxq8" title="Video Project 7" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                </div>
+            </div>
+
+
+            <div class="video-card">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube-nocookie.com/embed/gFhkBrYkj9c" title="Video Project 8" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                </div>
+            </div>
+
+
+            <div class="video-card">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube-nocookie.com/embed/xYWczjZYo84" title="Video Project 9" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                </div>
+            </div>
+
+
+            <div class="video-card">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube-nocookie.com/embed/ZLwV5OwHBzU" title="Video Project 10" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                </div>
+            </div>
+
+
+            <div class="video-card">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube-nocookie.com/embed/Th7yE96cKh0" title="Video Project 11" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                </div>
+            </div>
+
+
+            <div class="video-card">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube-nocookie.com/embed/wa7-wzA3f2k" title="Video Project 12" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                </div>
+            </div>
+
+
+            <div class="video-card">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube-nocookie.com/embed/q1cc0MI24r8" title="Video Project 13" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                </div>
+            </div>
+
+
+        </div>
+    </section>
+
+
+    <footer>
+        <p>Portfolio of Vikash • Always exploring, always editing.</p>
+        <p>Ready to collaborate? Let's create something amazing together.</p>
+    </footer>
+
+
+</body>
+</html>
